@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Login Form</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #000;
+        }
+
+        /* Outer rotating border */
+        .border-animated {
+            position: relative;
+            width: 360px;
+            height: 420px;
+            background: #000;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .border-animated::before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: conic-gradient(#ff1493, #00d4ff, #ff1493);
+            animation: rotateBorder 4s linear infinite;
+        }
+
+        /* Inner box */
+        .login-container {
+            position: relative;
+            width: 340px;
+            height: 400px;
+            background: #111;
+            border-radius: 12px;
+            text-align: center;
+            padding: 40px;
+            box-shadow: 0 0 15px rgba(255, 20, 147, 0.5);
+            z-index: 1;
+        }
+
+        /* Border rotation animation */
+        @keyframes rotateBorder {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        h2 {
+            color: #ff1493;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        /* Input Fields */
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid transparent;
+            outline: none;
+            background: transparent;
+            color: #ffffff;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .input-group label {
+            position: absolute;
+            top: 12px;
+            left: 10px;
+            color: rgba(255, 255, 255, 0.6);
+            transition: 0.3s;
+        }
+
+        .input-group input:focus ~ label,
+        .input-group input:valid ~ label {
+            top: -12px;
+            font-size: 12px;
+            color: #ff1493;
+        }
+
+        .input-group input:focus {
+            border: 2px solid #ff1493;
+            box-shadow: 0 0 10px rgba(255, 20, 147, 0.5);
+        }
+
+        /* Button */
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            background: linear-gradient(90deg, #ff1493, #00d4ff);
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .login-btn:hover {
+            background: linear-gradient(90deg, #00d4ff, #ff1493);
+            box-shadow: 0 0 10px rgba(255, 20, 147, 0.8);
+        }
+
+        /* Ripple Effect */
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 10%, transparent 10%);
+            transition: transform 0.5s ease-out;
+            transform: translate(-50%, -50%) scale(0);
+        }
+
+        .login-btn:active::before {
+            transform: translate(-50%, -50%) scale(1);
+        }
+    </style>
+</head>
+<body>
+    <div class="border-animated">
+        <div class="login-container">
+            <h2>Welcome Back</h2>
+            <div class="input-group">
+                <input type="text" required>
+                <label>Username</label>
+            </div>
+            <div class="input-group">
+                <input type="password" required>
+                <label>Password</label>
+            </div>
+            <button class="login-btn" onclick="animateButton(event)">Login</button>
+        </div>
+    </div>
+
+    <script>
+        function animateButton(event) {
+            let button = event.target;
+            let ripple = document.createElement("span");
+
+            let rect = button.getBoundingClientRect();
+            let x = event.clientX - rect.left;
+            let y = event.clientY - rect.top;
+
+            ripple.style.position = "absolute";
+            ripple.style.width = "20px";
+            ripple.style.height = "20px";
+            ripple.style.background = "rgba(255, 255, 255, 0.5)";
+            ripple.style.borderRadius = "50%";
+            ripple.style.transform = "scale(0)";
+            ripple.style.opacity = "1";
+            ripple.style.animation = "ripple-effect 0.6s linear";
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            button.appendChild(ripple);
+
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        }
+    </script>
+</body>
+</html>

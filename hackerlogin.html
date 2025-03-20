@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacker Login</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* Background with Matrix Animation */
+        body {
+            background: black;
+            overflow: hidden;
+            color: #0f0;
+        }
+
+        /* Matrix Effect */
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Main Buttons */
+        .main-buttons {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .main-buttons button {
+            padding: 12px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 10px;
+            transition: 0.3s ease-in-out;
+            color: white;
+        }
+
+        .login-btn { background: #ff4b8b; }
+        .register-btn { background: #ff1493; }
+
+        .login-btn:hover { background: #e60073; }
+        .register-btn:hover { background: #cc007a; }
+
+        /* Popup */
+        .popup-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .popup-box {
+            width: 400px;
+            background: black;
+            padding: 20px;
+            border-radius: 10px;
+            position: relative;
+            text-align: center;
+            transform: scale(0.8);
+            transition: transform 0.3s;
+            box-shadow: 0 0 20px #ff1493;
+            border: 3px solid #ff1493;
+            animation: glitchBorder 1s infinite;
+        }
+
+        @keyframes glitchBorder {
+            0% { border-color: #ff1493; }
+            25% { border-color: #ff4b8b; }
+            50% { border-color: #e60073; }
+            75% { border-color: #ff1493; }
+            100% { border-color: #ff4b8b; }
+        }
+
+        /* Close Button */
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #ff1493;
+        }
+
+        /* Typewriter Effect */
+        .typewriter {
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 3px solid #ff1493;
+            animation: typing 2s steps(20, end), blink 0.75s step-end infinite;
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff1493;
+        }
+
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink { 50% { border-color: transparent } }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ff1493;
+            background: #222;
+            color: white;
+        }
+
+        .submit-btn {
+            background: #ff1493;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* Show Popup */
+        .popup-container.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Matrix Background -->
+    <canvas id="matrix"></canvas>
+
+    <!-- Main Buttons -->
+    <div class="main-buttons">
+        <button class="login-btn" onclick="openPopup('login')">Login</button>
+        <button class="register-btn" onclick="openPopup('register')">Register</button>
+    </div>
+
+    <!-- Popup -->
+    <div class="popup-container" id="popup">
+        <div class="popup-box">
+            <span class="close-btn" onclick="closePopup()">&times;</span>
+            <h2 class="typewriter" id="popupTitle"></h2>
+            <div id="popupContent"></div>
+        </div>
+    </div>
+
+    <script>
+        function openPopup(type) {
+            let popup = document.getElementById("popup");
+            let popupTitle = document.getElementById("popupTitle");
+            let popupContent = document.getElementById("popupContent");
+
+            let audio = new Audio('https://www.soundjay.com/button/beep-07.wav');
+            audio.play();
+
+            if (type === 'login') {
+                popupTitle.innerText = "ACCESS GRANTED";
+                popupContent.innerHTML = `
+                    <input type="text" placeholder="Username">
+                    <input type="password" placeholder="Password">
+                    <button class="submit-btn">Login</button>
+                `;
+            } else {
+                popupTitle.innerText = "REGISTER NOW";
+                popupContent.innerHTML = `
+                    <input type="text" placeholder="Username">
+                    <input type="email" placeholder="Email">
+                    <input type="password" placeholder="Password">
+                    <button class="submit-btn">Register</button>
+                `;
+            }
+
+            popup.classList.add("show");
+        }
+
+        function closePopup() {
+            document.getElementById("popup").classList.remove("show");
+        }
+
+        // Matrix Animation
+        const canvas = document.getElementById("matrix");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        const matrix = letters.split("");
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#0f0";
+            ctx.font = fontSize + "px monospace";
+
+            drops.forEach((y, i) => {
+                const text = matrix[Math.floor(Math.random() * matrix.length)];
+                ctx.fillText(text, i * fontSize, y * fontSize);
+                if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            });
+        }
+
+        setInterval(drawMatrix, 50);
+    </script>
+
+    
+</body>
+</html>

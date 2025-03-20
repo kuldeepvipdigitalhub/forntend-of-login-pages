@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #0f0f0f;
+        }
+        
+        .login-container {
+            position: relative;
+            width: 320px;
+            padding: 40px;
+            background: #111;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        h2 {
+            color: #0ff;
+            margin-bottom: 20px;
+        }
+        
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: #0ff;
+            font-size: 16px;
+            border-bottom: 2px solid #0ff;
+            transition: 0.3s;
+        }
+        
+        .input-group label {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: rgba(0, 255, 255, 0.5);
+            transition: 0.3s;
+        }
+        
+        .input-group input:focus ~ label,
+        .input-group input:valid ~ label {
+            top: -12px;
+            font-size: 12px;
+            color: #0ff;
+        }
+        
+        .input-group input:focus {
+            border-bottom: 2px solid #00f7ff;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            outline: none;
+            background: #0ff;
+            color: #111;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        
+        .login-btn:hover {
+            background: #00c2c2;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+        }
+           
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Software Engineer Login</h2>
+        <div class="input-group">
+            <input type="text" required>
+            <label>Username</label>
+        </div>
+        <div class="input-group">
+            <input type="password" required>
+            <label>Password</label>
+        </div>
+        <button class="login-btn">Login</button>
+    </div>
+</body>
+</html>
